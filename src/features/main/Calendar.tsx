@@ -1,16 +1,12 @@
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import styled from 'styled-components';
 
 import Sub from './Sub';
 
 const Calendar = () => {
   const success = () =>
-    toast('푸바오 생일 페이지는 준비중이에요', {
-      position: 'bottom-center',
-      autoClose: 1000,
-      pauseOnHover: true,
-      draggable: true,
-      progress: 1,
+    toast('푸바오 생일 페이지는 준비 중이에요!', {
+      icon: '🥲',
     });
 
   return (
@@ -19,7 +15,7 @@ const Calendar = () => {
         title="푸바오 생일"
         note="푸바오의 생일을 
       축하해 주세요!"
-        day={true}
+        calendar={true}
       />
     </Layout>
   );

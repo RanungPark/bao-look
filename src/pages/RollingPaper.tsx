@@ -39,7 +39,7 @@ const PageHeader = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 88px;
+  height: 55px;
 `;
 
 const BackButton = styled.div`
@@ -59,5 +59,5 @@ const Title = styled.div`
 
 const PageBody = styled.div`
   position: relative;
-  height: calc(100vh - 88px);
+  height: calc(100vh - 55px);
 `;

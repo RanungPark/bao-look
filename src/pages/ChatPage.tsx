@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import PREV_ICON from 'src/assets/icon/prev.svg';
-import { COLORS } from 'src/constants';
+import { COLORS, ROUTES } from 'src/constants';
 import { MessageInput, Messages } from 'src/features/chat';
 import { styled } from 'styled-components';
 
@@ -8,11 +8,11 @@ function ChatPage() {
   const navigate = useNavigate();
 
   const moveBackPage = () => {
-    navigate(-1);
+    navigate(ROUTES.MAIN);
   };
 
   return (
-    <div>
+    <Layout>
       <PageHeader>
         <BackButton onClick={moveBackPage}>
           <img src={PREV_ICON} alt="prev_icon" />
@@ -27,11 +27,15 @@ function ChatPage() {
         <Messages />
         <MessageInput />
       </PageBody>
-    </div>
+    </Layout>
   );
 }
 
 export default ChatPage;
+
+const Layout = styled.div`
+  background-color: ${COLORS.PRIMARY_50};
+`;
 
 const PageHeader = styled.div`
   display: flex;
@@ -41,7 +45,7 @@ const PageHeader = styled.div`
   padding: 0.6rem 1.2rem;
   width: 100%;
   height: 58px;
-  border-bottom: 0.5px solid ${COLORS.GRAY_300};
+  /* border-bottom: 0.5px solid ${COLORS.GRAY_300}; */
 `;
 
 const BackButton = styled.div`

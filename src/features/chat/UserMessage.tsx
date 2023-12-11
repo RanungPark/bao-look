@@ -20,16 +20,14 @@ const Layout = styled.div`
 `;
 
 const MessageLayout = styled.div`
-  padding: 0.8rem 1rem 0.8rem 1.3rem;
+  padding: 8px 15px;
   max-width: 16em;
-  background-color: ${COLORS.GRAY_500};
-  color: ${COLORS.WHITE};
-  border-radius: 1.5rem 0px 1.5rem 1.5rem;
-  word-wrap: break-word;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
+  background-color: ${COLORS.SECONDARY_500};
+  color: ${COLORS.SECONDARY_800};
+  border-radius: 18px 0px 18px 18px;
+  border: 1px solid ${COLORS.SECONDARY_700};
+  word-wrap: break-all;
+  font-size: 15px;
 `;
 
 const Time = styled.div`

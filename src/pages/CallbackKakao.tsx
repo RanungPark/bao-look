@@ -29,8 +29,10 @@ const CallbackKakao = () => {
         <MainImageWrapper>
           <Image src="" alt="profile_img" />
         </MainImageWrapper>
-        <Nickname>푸덕이 짱짱</Nickname>
-        <div>닉네임으로 활동하게 될 거예요</div>
+        <MainTexts>
+          <Nickname>푸덕이 짱짱</Nickname>
+          <div>닉네임으로 활동하게 될 거예요</div>
+        </MainTexts>
       </MainContainer>
       <BottomButtonWrapper>
         <StartButton onClick={moveMainPage}>시작할래요!</StartButton>
@@ -55,9 +57,10 @@ const SplashText = styled.div`
 
 const MainContainer = styled.div`
   position: absolute;
-  top: 18rem;
+  top: 45%;
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%, -50%);
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,8 +81,15 @@ const Image = styled.img`
   background-color: ${COLORS.GRAY_400};
 `;
 
+const MainTexts = styled.div`
+  position: absolute;
+  top: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
 const Nickname = styled.div`
-  margin-top: 1.5rem;
   font-size: 1.5rem;
   font-weight: 500;
   text-align: center;

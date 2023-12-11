@@ -13,7 +13,7 @@ const RollingPaperBox = () => {
 
   return (
     <Layout onClick={moveRollingPaper}>
-      <Sub title="언제나 널 생각해" note="푸바오를 생각하는 마음을 남겨주세요!" day={false} />
+      <Sub title="언제나 널 생각해" note="푸바오를 생각하는 마음을 남겨주세요!" calendar={false} />
     </Layout>
   );
 };

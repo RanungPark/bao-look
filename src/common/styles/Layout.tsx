@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Outlet } from 'react-router-dom';
+import { COLORS } from 'src/constants';
 import { styled } from 'styled-components';
 
 const Layout = ({ children }: { children: React.ReactElement }) => {
@@ -23,6 +24,8 @@ const PageLayout = styled.div`
   max-width: 428px;
   height: 100%;
   min-height: 100vh;
+  background-color: ${COLORS.WHITE};
+  box-shadow: 0px 0px 16px rgb(50 50 50 / 12%);
   > * {
     width: 100%;
     display: flex;

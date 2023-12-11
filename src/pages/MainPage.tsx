@@ -1,4 +1,4 @@
-import { ToastContainer } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
 import { COLORS } from 'src/constants';
 import styled from 'styled-components';
 
@@ -18,13 +18,7 @@ function MainPage() {
         </SubLayout>
         <Merch />
       </PageBody>
-      <ToastContainer
-        position="bottom-center"
-        toastStyle={{
-          backgroundColor: 'green',
-        }}
-        limit={1}
-      />
+      <Toaster position="bottom-center" reverseOrder={false} />
     </MainLayout>
   );
 }
@@ -46,3 +40,13 @@ const SubLayout = styled.div`
   justify-content: space-between;
   gap: 17px;
 `;
+
+// export const Container = styled(Toaster)`
+//   .Toastify__toast {
+//     font-size: 16px;
+//     border-radius: 5px;
+//     padding: 16px 28px;
+//     color: #fff;
+//     background: rgba(48, 173, 120, 0.8);
+//   }
+// `;

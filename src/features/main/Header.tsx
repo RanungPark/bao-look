@@ -1,4 +1,4 @@
-import { COLORS } from 'src/constants';
+// import { COLORS } from 'src/constants';
 import styled from 'styled-components';
 
 const Header = () => {
@@ -8,9 +8,9 @@ const Header = () => {
         푸바오 <img src="src/assets/icon/heart.svg" alt="heart_icon" />
         1일
       </Title>
-      <Profile>
+      {/* <Profile>
         <Image src="" alt="" />
-      </Profile>
+      </Profile> */}
     </Layout>
   );
 };
@@ -29,16 +29,16 @@ const Title = styled.h1`
   gap: 8px;
 `;
 
-const Profile = styled.div`
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: ${COLORS.GRAY_500};
-`;
+// const Profile = styled.div`
+//   width: 48px;
+//   height: 48px;
+//   border-radius: 50%;
+//   background-color: ${COLORS.GRAY_500};
+// `;
 
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-`;
+// const Image = styled.img`
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+//   border-radius: 50%;
+// `;

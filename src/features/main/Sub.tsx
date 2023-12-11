@@ -1,18 +1,29 @@
 import { COLORS } from 'src/constants';
 import styled from 'styled-components';
 
-const Sub = ({ title, note, day }: { title: string; note: string; day: boolean }) => {
+const Sub = ({ title, note, calendar }: { title: string; note: string; calendar: boolean }) => {
+  const today = new Date();
+  const dDay = new Date(2024, 7 - 1, 20);
+  const gap = dDay.getTime() - today.getTime();
+  const result = Math.ceil(gap / (1000 * 60 * 60 * 24));
+
   return (
     <SubLayout>
       <ImgBox>
-        <ImgLayout />
+        <ImgLayout calendar={calendar}>
+          {calendar ? (
+            <img src="src/assets/icon/calendar-icon.svg" alt="calendarIcon" />
+          ) : (
+            <img src="src/assets/icon/rolling-icon.svg" alt="rollingIcon" />
+          )}
+        </ImgLayout>
       </ImgBox>
       <SubContent>
         <SubTitlt>
           {title}
-          {day && <DDay>D-228</DDay>}
+          {calendar && <DDay>D-{result}</DDay>}
         </SubTitlt>
-        <SubNote>{note}</SubNote>
+        <SubNote calendar={calendar}>{note}</SubNote>
       </SubContent>
     </SubLayout>
   );
@@ -32,16 +43,20 @@ const ImgBox = styled.div`
   justify-content: center;
 `;
 
-const ImgLayout = styled.div`
-  width: 115px;
-  height: 115px;
-  background-color: ${COLORS.GRAY_400};
+const ImgLayout = styled.div<{ calendar: boolean }>`
+  background-image: ${props =>
+    props.calendar ? `url('src/assets/icon/calendar-bg.svg')` : ` url('src/assets/icon/rolling-bg.svg')`};
+  width: 99px;
+  height: 99px;
   border-radius: 50%;
   margin: 18px 24px 0px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SubContent = styled.div`
-  margin-left: 15px;
+  margin: 16px 15px 0px 15px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -57,14 +72,18 @@ const SubTitlt = styled.h2`
 
 const DDay = styled.div`
   font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #ffae11;
   border-radius: 4px;
-  padding: 3px;
+  padding: 2px 3px;
   color: white;
 `;
 
-const SubNote = styled.span`
+const SubNote = styled.span<{ calendar: boolean }>`
   display: inline-block;
   color: ${COLORS.GRAY_300};
   font-size: 14px;
+  width: ${props => (props.calendar ? '89px' : '104px')};
 `;

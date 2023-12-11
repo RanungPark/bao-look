@@ -9,7 +9,7 @@ const ChatBox = () => {
     navigate(ROUTES.CHAT);
   };
   return (
-    <ChatBoxLayout onClick={moveChat}>
+    <ChatBoxLayout>
       <Profile>
         <Image src="src/assets/img/baoProfile.jpg" alt="푸바오 사진" />
         <StateBox></StateBox>
@@ -20,13 +20,15 @@ const ChatBox = () => {
         <div>워토우 더 먹고싶다바오</div>
       </StateMessage>
 
-      <MessageBox>
-        <Newly>최근 메시지</Newly>
-        <MessageLayout>
-          <MessageState>읽음 10:43</MessageState>
-          <MessagePhrases>알겠다바오</MessagePhrases>
-        </MessageLayout>
+      <MessageBox onClick={moveChat}>
+        <EarlyMessage>푸바오와 채팅을 시작해 보세요!</EarlyMessage>
+        <EarlyButton>시작하기</EarlyButton>
       </MessageBox>
+      {/* 
+      <MessageBox onClick={moveChat}>
+        <Newly>최근 메시지</Newly>
+        <MessagePhrases>이건 푸바오 말도 들어봐야한다</MessagePhrases>
+      </MessageBox> */}
     </ChatBoxLayout>
   );
 };
@@ -40,7 +42,6 @@ const ChatBoxLayout = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   height: 323px;
   margin: 18px 0px;
   padding: 0 15px 15px 15px;
@@ -99,27 +100,35 @@ const MessageBox = styled.div`
   margin-top: 37px;
 `;
 
-const Newly = styled.span`
+// const Newly = styled.span`
+//   font-size: 15px;
+//   color: ${COLORS.PRIMARY_600};
+// `;
+
+const EarlyMessage = styled.span`
   font-size: 15px;
-  color: ${COLORS.PRIMARY_600};
+  font-weight: bold;
+  color: ${COLORS.PRIMARY_800};
 `;
 
-const MessageLayout = styled.div`
-  display: flex;
-  align-items: end;
-  gap: 0.4rem;
-`;
+// const MessagePhrases = styled.div`
+//   padding: 8px 15px;
+//   background-color: ${COLORS.PRIMARY_500};
+//   color: ${COLORS.PRIMARY_800};
+//   border-radius: 0px 18px 18px 18px;
+//   word-wrap: break-word;
+//   border: 1px solid ${COLORS.PRIMARY_700};
+//   max-width: 210px;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: pre;
+//   cursor: pointer;
+// `;
 
-const MessageState = styled.div`
-  font-size: 11px;
-  color: ${COLORS.GRAY_400};
-`;
-
-const MessagePhrases = styled.div`
-  padding: 8px 15px;
-  background-color: ${COLORS.SECONDARY_500};
-  color: ${COLORS.SECONDARY_800};
-  border-radius: 18px 0px 18px 18px;
-  word-wrap: break-word;
-  border: 1px solid ${COLORS.SECONDARY_700};
+const EarlyButton = styled.div`
+  background-color: ${COLORS.PRIMARY_500};
+  padding: 5px 10px;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
 `;
