@@ -48,8 +48,7 @@ const Layout = styled.div`
   height: 80px;
   position: absolute;
   bottom: 0;
-  /* border-top: 0.5px solid ${COLORS.GRAY_300}; */
-  background-color: ${COLORS.PRIMARY_100};
+  border-top: 0.5px solid ${COLORS.GRAY_300};
 `;
 
 const InputWrapper = styled.div`
@@ -57,8 +56,8 @@ const InputWrapper = styled.div`
   display: flex;
   height: 100%;
   border-radius: 99px;
-  /* border: 1px solid rgba(0, 0, 0, 0.5); */
-  background: ${COLORS.WHITE};
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background: #fafafa;
   font-size: 14px;
   padding: 0 45px 0 20px;
 `;

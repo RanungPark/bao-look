@@ -13,7 +13,7 @@ const SplashPage = () => {
         <MainImageWrapper>
           <Image src="" alt="profile_img" />
         </MainImageWrapper>
-        <MainTexts>바오,봐요</MainTexts>
+        <div>바오,봐요</div>
       </MainContainer>
       <BottomButtonWrapper>
         <KakaoButton onClick={onClickKakaoLogin}>
@@ -37,10 +37,9 @@ const Layout = styled.div`
 
 const MainContainer = styled.div`
   position: absolute;
-  top: 45%;
+  top: 18rem;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
+  transform: translate(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -59,14 +58,6 @@ const Image = styled.img`
   height: 150px;
   border-radius: 50%;
   background-color: ${COLORS.GRAY_400};
-`;
-
-const MainTexts = styled.div`
-  position: absolute;
-  top: 180px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
 `;
 
 const BottomButtonWrapper = styled.div`
