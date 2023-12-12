@@ -1,11 +1,12 @@
 // import { COLORS } from 'src/constants';
+import HEAR_ICON from 'src/assets/icon/heart.svg';
 import styled from 'styled-components';
 
 const Header = () => {
   return (
     <Layout>
       <Title>
-        푸바오 <img src="src/assets/icon/heart.svg" alt="heart_icon" />
+        푸바오 <img src={HEAR_ICON} alt="heart_icon" />
         1일
       </Title>
       {/* <Profile>

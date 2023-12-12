@@ -12,6 +12,7 @@ const RouteChangeTracker = () => {
   useEffect(() => {
     if (GA_TRACKING_ID) {
       ReactGA.initialize(GA_TRACKING_ID);
+      // ReactGA.initialize(GA_TRACKING_ID, { testMode: true });
       setInitialized(true);
     }
   }, []);

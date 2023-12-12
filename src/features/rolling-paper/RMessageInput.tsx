@@ -1,11 +1,20 @@
 import { useState } from 'react';
 
+import { useSetRecoilState } from 'recoil';
 import SEND_ICON from 'src/assets/icon/send.svg';
 import { COLORS } from 'src/constants';
 import styled from 'styled-components';
 
-const RMessageInput = () => {
+import { rollingPaperStore } from './store';
+
+interface IProps {
+  setInputState: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const RMessageInput = ({ setInputState }: IProps) => {
   const [message, setMessage] = useState('');
+  const setRollingPaperState = useSetRecoilState(rollingPaperStore);
+  const maxMessageLength = 100;
 
   const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing) {
@@ -18,14 +27,37 @@ const RMessageInput = () => {
   };
 
   const sendMessage = () => {
-    // TODO: send message to server
+    if (message === '') {
+      return;
+    }
+    setRollingPaperState(prev => ({
+      ...prev,
+      messages: [...prev.messages, { sender: 'user', message, date: Date(), nickName: '닉네임' }],
+    }));
+    setRollingPaperState(prev => ({ ...prev, loading: true }));
     setMessage('');
+    setRollingPaperState(prev => ({ ...prev, loading: false }));
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputMessage = e.target.value;
+    if (inputMessage.length <= maxMessageLength) {
+      setMessage(inputMessage);
+    }
   };
 
   return (
     <Layout>
       <InputWrapper>
-        <Input type="text" value={message} onChange={e => setMessage(e.target.value)} onKeyDown={keyDownHandler} />
+        <Input
+          type="text"
+          placeholder="푸바오에게 한마디!! (최대 100자)"
+          value={message}
+          onChange={handleInputChange}
+          onKeyDown={keyDownHandler}
+          onFocus={() => setInputState(false)}
+          onBlur={() => setInputState(true)}
+        />
         <Button onClick={sendMessage}>
           <img src={SEND_ICON} alt="send_icon" />
         </Button>
@@ -48,7 +80,7 @@ const Layout = styled.div`
 const InputWrapper = styled.div`
   position: relative;
   display: flex;
-  height: 100%;
+  height: 44px;
   border-radius: 100px;
   background: #fafafa;
   font-size: 14px;

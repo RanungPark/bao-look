@@ -32,7 +32,6 @@ export default SplashPage;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  position: relative;
 `;
 
 const MainContainer = styled.div`
@@ -67,6 +66,12 @@ const MainTexts = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  color: #6cbd04;
+  font-family: AndongKaturi;
+  font-size: 36.632px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 
 const BottomButtonWrapper = styled.div`

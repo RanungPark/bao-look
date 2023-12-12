@@ -1,11 +1,16 @@
 import { useState } from 'react';
 
+import { useSetRecoilState } from 'recoil';
 import SEND_ICON from 'src/assets/icon/send.svg';
 import { COLORS } from 'src/constants';
 import { styled } from 'styled-components';
 
+import { chatStore } from './store';
+
 const MessageInput = () => {
   const [message, setMessage] = useState('');
+  const setChatState = useSetRecoilState(chatStore);
+  const maxMessageLength = 300;
 
   const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing) {
@@ -18,8 +23,26 @@ const MessageInput = () => {
   };
 
   const sendMessage = () => {
-    // TODO: send message to server
+    if (message === '') {
+      return;
+    }
+    setChatState(prev => ({ ...prev, messages: [...prev.messages, { sender: 'user', message, date: Date() }] }));
+    setChatState(prev => ({ ...prev, loading: true }));
+    const response = {
+      sender: '푸바오',
+      message: '나랑 놀아줘!',
+      date: Date(),
+    };
+    setChatState(prev => ({ ...prev, messages: [...prev.messages, response] }));
+    setChatState(prev => ({ ...prev, loading: false }));
     setMessage('');
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputMessage = e.target.value;
+    if (inputMessage.length <= maxMessageLength) {
+      setMessage(inputMessage);
+    }
   };
 
   return (
@@ -29,7 +52,7 @@ const MessageInput = () => {
           type="text"
           placeholder="푸바오에게 인사해 보세요!"
           value={message}
-          onChange={e => setMessage(e.target.value)}
+          onChange={handleInputChange}
           onKeyDown={keyDownHandler}
         />
         <Button onClick={sendMessage}>
@@ -48,16 +71,14 @@ const Layout = styled.div`
   height: 80px;
   position: absolute;
   bottom: 0;
-  /* border-top: 0.5px solid ${COLORS.GRAY_300}; */
   background-color: ${COLORS.PRIMARY_100};
 `;
 
 const InputWrapper = styled.div`
   position: relative;
   display: flex;
-  height: 100%;
+  height: 44px;
   border-radius: 99px;
-  /* border: 1px solid rgba(0, 0, 0, 0.5); */
   background: ${COLORS.WHITE};
   font-size: 14px;
   padding: 0 45px 0 20px;
@@ -80,6 +101,5 @@ const Button = styled.div`
   transform: translateY(-50%);
   width: 26px;
   height: 26px;
-  /* background-color: red; */
   cursor: pointer;
 `;

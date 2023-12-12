@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import LINK_ICON from 'src/assets/icon/link.svg';
 import styled from 'styled-components';
 
 const Merch = () => {
@@ -7,7 +8,7 @@ const Merch = () => {
       <Link to={`https://brand.naver.com/everland/category/5f55be35cdbd4bad809c6ff564cef5ac?cp=1`}>
         바오네 공식 스토어
       </Link>
-      <img src="src/assets/icon/link.svg" alt="link_icon" />
+      <img src={LINK_ICON} alt="link_icon" />
     </MetchLayout>
   );
 };

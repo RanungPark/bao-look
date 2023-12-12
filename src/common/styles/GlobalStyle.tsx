@@ -11,6 +11,12 @@ const GlobalStyle = createGlobalStyle`
   font-display: swap;
   src: url(${PRETEND_FONT}) format("woff2-variations");
 }
+@font-face {
+    font-family: 'AndongKaturi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_13@1.0/Katuri.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 html{
     font-family: "Pretendard";
@@ -33,7 +39,16 @@ body{
     font-size: 16px;
     font-weight: 400;
     line-height: 20px; 
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
 }
 `;
+
+function setScreenSize() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+setScreenSize();
+window.addEventListener('resize', setScreenSize);
 
 export default GlobalStyle;

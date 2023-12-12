@@ -1,3 +1,5 @@
+import CALENDAR_ICON from 'src/assets/icon/calendar-icon.svg';
+import ROLLING_ICON from 'src/assets/icon/rolling-icon.svg';
 import { COLORS } from 'src/constants';
 import styled from 'styled-components';
 
@@ -11,11 +13,7 @@ const Sub = ({ title, note, calendar }: { title: string; note: string; calendar:
     <SubLayout>
       <ImgBox>
         <ImgLayout calendar={calendar}>
-          {calendar ? (
-            <img src="src/assets/icon/calendar-icon.svg" alt="calendarIcon" />
-          ) : (
-            <img src="src/assets/icon/rolling-icon.svg" alt="rollingIcon" />
-          )}
+          {calendar ? <img src={CALENDAR_ICON} alt="calendarIcon" /> : <img src={ROLLING_ICON} alt="rollingIcon" />}
         </ImgLayout>
       </ImgBox>
       <SubContent>

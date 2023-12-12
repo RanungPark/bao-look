@@ -18,10 +18,6 @@ function ChatPage() {
           <img src={PREV_ICON} alt="prev_icon" />
         </BackButton>
         <Title>푸바오와 채팅</Title>
-        <Profile>
-          <Image src="" alt="profile_img" />
-          <StateBox></StateBox>
-        </Profile>
       </PageHeader>
       <PageBody>
         <Messages />
@@ -35,6 +31,15 @@ export default ChatPage;
 
 const Layout = styled.div`
   background-color: ${COLORS.PRIMARY_50};
+  overflow: hidden;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  -webkit-scrollbar {
+    display: none;
+    width: 0; /* Remove scrollbar space */
+    height: 0;
+    background: transparent; /* Optional: just make scrollbar invisible */
+  }
 `;
 
 const PageHeader = styled.div`
@@ -45,7 +50,6 @@ const PageHeader = styled.div`
   padding: 0.6rem 1.2rem;
   width: 100%;
   height: 58px;
-  /* border-bottom: 0.5px solid ${COLORS.GRAY_300}; */
 `;
 
 const BackButton = styled.div`
@@ -63,35 +67,7 @@ const Title = styled.div`
   color: ${COLORS.GRAY_900};
 `;
 
-const Profile = styled.div`
-  position: absolute;
-  right: 1.2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background-color: ${COLORS.GRAY_500};
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-`;
-
-const StateBox = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: green;
-`;
-
 const PageBody = styled.div`
   position: relative;
-  height: calc(100vh - 58px);
+  height: calc(var(--vh, 1vh) * 100 - 58px);
 `;

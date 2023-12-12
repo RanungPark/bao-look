@@ -1,15 +1,18 @@
 import { COLORS } from 'src/constants';
 import { styled } from 'styled-components';
 
-const BaoMessage = ({ message }: { message: string }) => {
+import { IMessage } from './types';
+import { formatTime } from './utils';
+
+const BaoMessage = ({ message: { sender, message, date } }: { message: IMessage }) => {
   return (
     <Layout>
       <BaoProfile></BaoProfile>
       <div>
-        <BaoName>푸바오</BaoName>
+        <BaoName>{sender}</BaoName>
         <MessageLayout>{message}</MessageLayout>
       </div>
-      <Time>10:11</Time>
+      <Time>{formatTime(date)}</Time>
     </Layout>
   );
 };

@@ -1,39 +1,51 @@
+import { useEffect, useRef, useState } from 'react';
+
+import { useRecoilValue } from 'recoil';
+import { Spinner } from 'src/common/ui';
+import { COLORS } from 'src/constants';
 import styled from 'styled-components';
 
 import ROtherMassage from './ROtherMassage';
 import RUserMassage from './RUserMassage';
+import { rollingPaperStore } from './store';
+import useObserver from '../../common/useObserver';
 
 const RMessages = () => {
-  const messages = [
-    { message: '푸바오 사랑해~', sender: 'outherUser1', nickName: '닉네임' },
-    {
-      message: '용인푸씨 한국에서 살게 해주세요 기도 1일차...',
-      sender: 'outerUser1',
-      nickName: '닉네임',
-    },
-    { message: '이건 푸바오 말도 들어봐야 된다', sender: 'outerUser2', nickName: '닉네임' },
-    { message: '푸바오 사랑해 영원한 내 아기 판다 사랑해 푸바오', sender: 'outerUser3', nickName: '닉네임' },
-    { message: '이건 푸바오 말도 들어봐야 된다', sender: 'outerUser4', nickName: '닉네임' },
-    {
-      message: '푸야 건강만 해라',
-      sender: 'outerUser5',
-      nickName: '닉네임',
-    },
-    {
-      message: '알겠다 바오',
-      sender: 'user',
-      nickName: '닉네임',
-    },
-  ];
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollHeight, setScrollHeight] = useState(0);
+  const infiniteContainerRef = useObserver(() => moreDataHandler());
+  const rollingPaperState = useRecoilValue(rollingPaperStore);
+
+  const moreDataHandler = () => {
+    console.log('moreDataHandler');
+  };
+
+  useEffect(() => {
+    if (!messagesContainerRef.current) {
+      return;
+    }
+
+    if (scrollHeight) {
+      const scrollTop = messagesContainerRef.current.scrollHeight - scrollHeight;
+      messagesContainerRef.current.scrollTop = scrollTop;
+      setScrollHeight(messagesContainerRef.current.scrollHeight);
+    } else {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }, [rollingPaperState.messages, scrollHeight]);
 
   return (
     <Layout>
-      {messages.map((message, index: number) => {
-        if (message.sender === 'user') {
-          return <RUserMassage message={message.message} key={index} />;
-        }
-        return <ROtherMassage message={message.message} nickName={message.nickName} key={index} />;
-      })}
+      <Spinner loading={rollingPaperState.loading} />
+      <MassagesLayout ref={messagesContainerRef}>
+        {!rollingPaperState.loading && <InfinityContainer ref={infiniteContainerRef} />}
+        {rollingPaperState.messages.map((message, index: number) => {
+          if (message.sender === 'user') {
+            return <RUserMassage message={message} key={index} />;
+          }
+          return <ROtherMassage message={message} key={index} />;
+        })}
+      </MassagesLayout>
     </Layout>
   );
 };
@@ -43,9 +55,31 @@ export default RMessages;
 const Layout = styled.div`
   height: calc(100% - 80px);
   width: 100%;
-  padding: 0 16px;
-  gap: 25px;
+  padding: 0 0.2rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
+const MassagesLayout = styled.div`
+  padding: 1rem;
+  padding-bottom: 0.4rem;
+  gap: 0.6rem;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${COLORS.SECONDARY_200};
+    border-radius: 6px;
+  }
+`;
+
+const InfinityContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1px;
 `;

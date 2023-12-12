@@ -11,7 +11,7 @@ const ChatBox = () => {
   return (
     <ChatBoxLayout>
       <Profile>
-        <Image src="src/assets/img/baoProfile.jpg" alt="푸바오 사진" />
+        <Image src="src/assets/img/bao-profile.jpg" alt="푸바오 사진" />
         <StateBox></StateBox>
       </Profile>
 
