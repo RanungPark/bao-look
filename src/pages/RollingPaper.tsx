@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import COVER_BACKGROUND from 'src/assets/icon/cover.svg';
 import PREV_WHITE_ICON from 'src/assets/icon/prev-white.svg';
 import PREV_ICON from 'src/assets/icon/prev.svg';
-import { COLORS } from 'src/constants';
+import { COLORS, ROUTES } from 'src/constants';
 import { RMessageInput, RMessages } from 'src/features/rolling-paper';
 import styled from 'styled-components';
 
@@ -13,7 +13,7 @@ const RollingPaper = () => {
   const navigate = useNavigate();
 
   const moveBackPage = () => {
-    navigate(-1);
+    navigate(ROUTES.MAIN);
   };
 
   return (

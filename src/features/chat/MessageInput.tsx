@@ -6,7 +6,7 @@ import { COLORS } from 'src/constants';
 import { styled } from 'styled-components';
 
 import { postMessage } from './service';
-import { chatStore } from './store';
+import { chatStore, lastChatId } from './store';
 import { formatTime } from './utils';
 import { authStore } from '../auth/store';
 
@@ -15,6 +15,7 @@ const MessageInput = () => {
   const { memberId } = useRecoilValue(authStore);
   const setChatState = useSetRecoilState(chatStore);
   const maxMessageLength = 300;
+  const lastChatIdState = useRecoilValue(lastChatId);
 
   const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing) {
@@ -33,12 +34,14 @@ const MessageInput = () => {
 
     setChatState(prev => ({
       ...prev,
-      messages: [...prev.messages, { role: 'user', message, chatTime: formatTime(Date()), lastChatId: 0 }],
+      messages: [
+        ...prev.messages,
+        { role: 'user', message, chatTime: formatTime(Date()), chatId: lastChatIdState + 1 },
+      ],
     }));
 
     setChatState(prev => ({ ...prev, loading: true }));
-    console.log(memberId);
-    postMessage(1, message).then(res => {
+    postMessage(memberId, message).then(res => {
       if (!res) {
         return;
       }
@@ -47,7 +50,7 @@ const MessageInput = () => {
           chatTime: res.assiChatTime[index],
           message: res.messageResponse[index],
           role: 'assistant',
-          lastChatId: res?.savedAssiChatId[index],
+          chatId: res?.savedAssiChatId[index],
         };
       });
       setChatState(prev => ({ ...prev, messages: [...prev.messages, ...newMessages] }));

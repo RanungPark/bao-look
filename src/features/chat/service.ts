@@ -23,20 +23,14 @@ export const postMessage = async (memberId: number, message: string): Promise<IR
 };
 
 interface IResponseGetMessageList {
-  contents: IMessage[];
-  nextCursor: number;
-  totalElements: number;
+  values: IMessage[];
+  hasNext: boolean;
 }
-export const getMessageList = async (
-  memberId: number,
-  lastChatId: number,
-  size = 10
-): Promise<IResponseGetMessageList> => {
+export const getMessageList = async (memberId: number, lastChatId?: number): Promise<IResponseGetMessageList> => {
   try {
     const response = await axios.get(`${URLS.CHAT_LIST}/${memberId}`, {
       params: {
         lastChatId,
-        size,
       },
     });
     return response.data.data;

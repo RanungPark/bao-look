@@ -7,7 +7,7 @@ import { styled } from 'styled-components';
 
 import BaoMessage from './BaoMessage';
 import { getMessageList } from './service';
-import { chatStore } from './store';
+import { chatStore, firstChatId } from './store';
 import UserMessage from './UserMessage';
 import useObserver from '../../common/useObserver';
 import { authStore } from '../auth/store';
@@ -18,40 +18,55 @@ const Messages = () => {
   const infiniteContainerRef = useObserver(() => moreDataHandler());
   const [chatState, setChatState] = useRecoilState(chatStore);
   const { memberId } = useRecoilValue(authStore);
+  const firstChatIdState = useRecoilValue(firstChatId);
 
   const moreDataHandler = () => {
-    console.log('moreDataHandler');
-    // if (hasNextPage) {
-    //   return fetchNextPage();
-    // }
+    if (!messagesContainerRef.current) {
+      return;
+    }
+    if (chatState.hasNext) {
+      setScrollHeight(messagesContainerRef.current.scrollHeight);
+      setChatState(prev => ({ ...prev, loading: true }));
+      getMessageList(memberId, firstChatIdState)
+        .then(res => {
+          if (!res) {
+            return;
+          }
+          setChatState(prev => ({
+            ...prev,
+            messages: [...res.values.slice().reverse(), ...prev.messages],
+            hasNext: res.hasNext,
+          }));
+        })
+        .finally(() => {
+          setChatState(prev => ({ ...prev, loading: false }));
+        });
+    }
   };
 
   useEffect(() => {
     if (!messagesContainerRef.current) {
       return;
     }
-
     if (scrollHeight) {
       const scrollTop = messagesContainerRef.current.scrollHeight - scrollHeight;
       messagesContainerRef.current.scrollTop = scrollTop;
-      setScrollHeight(messagesContainerRef.current.scrollHeight);
-    } else {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      setScrollHeight(0);
     }
-  }, [chatState.messages, scrollHeight]);
+    messagesContainerRef.current.scrollHeight - messagesContainerRef.current.clientHeight;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatState.messages.length]);
 
   useEffect(() => {
     setChatState(prev => ({ ...prev, loading: true }));
-    console.log(memberId);
-    getMessageList(1, 26).then(res => {
+    getMessageList(memberId).then(res => {
       if (!res) {
         return;
       }
       setChatState(prev => ({
         ...prev,
-        messages: res.contents.slice().reverse(),
-        totalElements: res.totalElements,
-        nextCursor: res.nextCursor,
+        messages: res.values.slice().reverse(),
+        hasNext: res.hasNext,
       }));
     });
     setChatState(prev => ({ ...prev, loading: false }));
