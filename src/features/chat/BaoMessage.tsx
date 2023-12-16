@@ -1,18 +1,20 @@
+import FUBAO_PROFILE from 'src/assets/img/bao-profile.jpg';
 import { COLORS } from 'src/constants';
 import { styled } from 'styled-components';
 
 import { IMessage } from './types';
-import { formatTime } from './utils';
 
-const BaoMessage = ({ message: { sender, message, date } }: { message: IMessage }) => {
+const BaoMessage = ({ message: { message, chatTime } }: { message: IMessage }) => {
   return (
     <Layout>
-      <BaoProfile></BaoProfile>
+      <BaoProfile>
+        <img src={FUBAO_PROFILE} alt="fubao_profile" />
+      </BaoProfile>
       <div>
-        <BaoName>{sender}</BaoName>
+        <BaoName>{'푸바오'}</BaoName>
         <MessageLayout>{message}</MessageLayout>
       </div>
-      <Time>{formatTime(date)}</Time>
+      <Time>{chatTime}</Time>
     </Layout>
   );
 };
@@ -29,6 +31,7 @@ const BaoProfile = styled.div`
   width: 34px;
   height: 34px;
   border-radius: 50%;
+  overflow: hidden;
   background-color: ${COLORS.GRAY_500};
 `;
 

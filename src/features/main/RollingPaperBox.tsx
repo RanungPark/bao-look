@@ -23,5 +23,4 @@ export default RollingPaperBox;
 const Layout = styled.div`
   cursor: pointer;
   width: 100%;
-  background-color: white;
 `;

@@ -1,14 +1,12 @@
 import { COLORS } from 'src/constants';
 import styled from 'styled-components';
 
-import { IRMessage } from './types';
-import { formatTime } from '../chat/utils';
+import { IListValues } from './types';
 
-const RUserMassage = ({ message: { date, message } }: { message: IRMessage }) => {
+const RUserMassage = ({ message: { content } }: { message: IListValues }) => {
   return (
     <Layout>
-      <Time>{formatTime(date)}</Time>
-      <Message>{message}</Message>
+      <Message>{content}</Message>
     </Layout>
   );
 };
@@ -31,10 +29,4 @@ const Message = styled.div`
   border-radius: 18px 0px 18px 18px;
   word-wrap: break-all;
   font-size: 15px;
-`;
-
-const Time = styled.div`
-  color: ${COLORS.DARK};
-  opacity: 0.4;
-  font-size: 11px;
 `;

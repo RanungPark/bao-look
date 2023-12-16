@@ -2,12 +2,11 @@ import { COLORS } from 'src/constants';
 import { styled } from 'styled-components';
 
 import { IMessage } from './types';
-import { formatTime } from './utils';
 
-const UserMessage = ({ message: { date, message } }: { message: IMessage }) => {
+const UserMessage = ({ message: { chatTime, message } }: { message: IMessage }) => {
   return (
     <Layout>
-      <Time>{formatTime(date)}</Time>
+      <Time>{chatTime}</Time>
       <MessageLayout>{message}</MessageLayout>
     </Layout>
   );

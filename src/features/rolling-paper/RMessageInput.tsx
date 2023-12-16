@@ -1,18 +1,23 @@
 import { useState } from 'react';
 
+import axios, { AxiosResponse } from 'axios';
 import { useSetRecoilState } from 'recoil';
 import SEND_ICON from 'src/assets/icon/send.svg';
-import { COLORS } from 'src/constants';
+import { COLORS, URLS } from 'src/constants';
 import styled from 'styled-components';
 
+import { IPostRollingPaper } from './service';
+// import { postRollingPaper } from './service';
 import { rollingPaperStore } from './store';
+// import { authStore } from '../auth/store';
 
 interface IProps {
   setInputState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const RMessageInput = ({ setInputState }: IProps) => {
-  const [message, setMessage] = useState('');
+  const [content, setContent] = useState('');
+  // const { memberId } = useRecoilValue(authStore);
   const setRollingPaperState = useSetRecoilState(rollingPaperStore);
   const maxMessageLength = 100;
 
@@ -26,23 +31,75 @@ const RMessageInput = ({ setInputState }: IProps) => {
     }
   };
 
+  // const sendMessage = () => {
+  //   if (content === '') {
+  //     return;
+  //   }
+
+  //   setRollingPaperState(prev => ({ ...prev, loading: true }));
+  //   //1 => memberId
+  //   postRollingPaper(1, content).then(res => {
+  //     if (!res) {
+  //       return;
+  //     }
+  //     setRollingPaperState(prev => ({
+  //       ...prev,
+  //       messages: [
+  //         ...prev.messages,
+  //         {
+  //           content,
+  //           rollingPaperId: res.data.rollingPaperId,
+  //           memberId: 1, // 1 => memberId
+  //           randomName: res.data.randomName,
+  //         },
+  //       ],
+  //     }));
+  //   });
+
+  //   setRollingPaperState(prev => ({ ...prev, loading: false }));
+  //   setContent('');
+  // };
+
   const sendMessage = () => {
-    if (message === '') {
+    if (content === '') {
       return;
     }
-    setRollingPaperState(prev => ({
-      ...prev,
-      messages: [...prev.messages, { sender: 'user', message, date: Date(), nickName: '닉네임' }],
-    }));
+
+    axios
+      // .post(`${URLS.ROLLING_PAPER}/${memberId}`, {
+      //   message,
+      // })
+      .post(`${URLS.ROLLING_PAPER}/1`, {
+        content,
+      })
+      .then(function (response: AxiosResponse<IPostRollingPaper>) {
+        console.log(response.data);
+        setRollingPaperState(prev => ({
+          ...prev,
+          messages: [
+            ...prev.messages,
+            {
+              content,
+              rollingPaperId: response.data.data.rollingPaperId,
+              memberId: 1, // 1 => memberId
+              randomName: response.data.data.randomName,
+            },
+          ],
+        }));
+      })
+      .catch(function (error) {
+        console.log(error.response);
+      });
+
     setRollingPaperState(prev => ({ ...prev, loading: true }));
-    setMessage('');
+    setContent('');
     setRollingPaperState(prev => ({ ...prev, loading: false }));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputMessage = e.target.value;
     if (inputMessage.length <= maxMessageLength) {
-      setMessage(inputMessage);
+      setContent(inputMessage);
     }
   };
 
@@ -52,7 +109,7 @@ const RMessageInput = ({ setInputState }: IProps) => {
         <Input
           type="text"
           placeholder="푸바오에게 한마디!! (최대 100자)"
-          value={message}
+          value={content}
           onChange={handleInputChange}
           onKeyDown={keyDownHandler}
           onFocus={() => setInputState(false)}

@@ -1,17 +1,36 @@
-// import { COLORS } from 'src/constants';
+import { useEffect, useState } from 'react';
+
+import axios, { AxiosResponse } from 'axios';
+// import { useRecoilValue } from 'recoil';
 import HEAR_ICON from 'src/assets/icon/heart.svg';
+import { URLS } from 'src/constants';
 import styled from 'styled-components';
 
+import { IMember } from './store';
+// import { IAuthStore, authStore } from '../auth/store';
+
 const Header = () => {
+  // const { memberId } = useRecoilValue<IAuthStore>(authStore);
+  const [member, setMember] = useState<number | null>(null);
+  useEffect(() => {
+    axios
+      // .get(`${URLS.MEMBER}/${memberId}}`)
+      .get(`${URLS.MEMBER}/1`)
+      .then(function (response: AxiosResponse<IMember>) {
+        console.log(response.data);
+        setMember(response.data.data.dday);
+      })
+      .catch(function (error) {
+        console.log(error.response);
+      });
+  }, []);
+
   return (
     <Layout>
       <Title>
         푸바오 <img src={HEAR_ICON} alt="heart_icon" />
-        1일
+        {member}
       </Title>
-      {/* <Profile>
-        <Image src="" alt="" />
-      </Profile> */}
     </Layout>
   );
 };
@@ -29,17 +48,3 @@ const Title = styled.h1`
   display: flex;
   gap: 8px;
 `;
-
-// const Profile = styled.div`
-//   width: 48px;
-//   height: 48px;
-//   border-radius: 50%;
-//   background-color: ${COLORS.GRAY_500};
-// `;
-
-// const Image = styled.img`
-//   width: 100%;
-//   height: 100%;
-//   object-fit: cover;
-//   border-radius: 50%;
-// `;

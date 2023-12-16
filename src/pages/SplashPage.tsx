@@ -1,4 +1,5 @@
 import KAKAO_ICON from 'src/assets/icon/kakao.svg';
+import SPLASH_IMG from 'src/assets/img/splash_img.svg';
 import { COLORS, KAKAO_LOGIN_URL } from 'src/constants';
 import { styled } from 'styled-components';
 
@@ -11,9 +12,9 @@ const SplashPage = () => {
     <Layout>
       <MainContainer>
         <MainImageWrapper>
-          <Image src="" alt="profile_img" />
+          <Image src={SPLASH_IMG} alt="profile_img" />
         </MainImageWrapper>
-        <MainTexts>바오,봐요</MainTexts>
+        {/* <MainTexts>바오,봐요</MainTexts> */}
       </MainContainer>
       <BottomButtonWrapper>
         <KakaoButton onClick={onClickKakaoLogin}>
@@ -32,6 +33,7 @@ export default SplashPage;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: ${COLORS.PRIMARY_100};
 `;
 
 const MainContainer = styled.div`
@@ -54,25 +56,24 @@ const MainImageWrapper = styled.div`
 `;
 
 const Image = styled.img`
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background-color: ${COLORS.GRAY_400};
+  width: 12rem;
+  /* height: 150px; */
+  /* border-radius: 50%; */
 `;
 
-const MainTexts = styled.div`
-  position: absolute;
-  top: 180px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  color: #6cbd04;
-  font-family: AndongKaturi;
-  font-size: 36.632px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
+// const MainTexts = styled.div`
+//   position: absolute;
+//   top: 180px;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1rem;
+//   color: #6cbd04;
+//   font-family: AndongKaturi;
+//   font-size: 36.632px;
+//   font-style: normal;
+//   font-weight: 400;
+//   line-height: normal;
+// `;
 
 const BottomButtonWrapper = styled.div`
   position: absolute;

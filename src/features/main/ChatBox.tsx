@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router';
+import FUBAO_PROFILE from 'src/assets/img/bao-profile.jpg';
 import { COLORS, ROUTES } from 'src/constants';
 import styled from 'styled-components';
 
@@ -11,7 +12,7 @@ const ChatBox = () => {
   return (
     <ChatBoxLayout>
       <Profile>
-        <Image src="src/assets/img/bao-profile.jpg" alt="푸바오 사진" />
+        <Image src={FUBAO_PROFILE} alt="푸바오 사진" />
         <StateBox></StateBox>
       </Profile>
 
@@ -93,11 +94,15 @@ const MessageBox = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 61px;
-  background-color: ${COLORS.PRIMARY_100};
   padding: 12px 12.5px;
   border-radius: 10px;
   width: 100%;
   margin-top: 37px;
+  background-color: ${COLORS.PRIMARY_100};
+
+  &:hover {
+    background-color: #cce6aa;
+  }
 `;
 
 // const Newly = styled.span`
@@ -131,4 +136,8 @@ const EarlyButton = styled.div`
   border-radius: 15px;
   color: white;
   cursor: pointer;
+
+  &:hover {
+    background-color: #65ad0a;
+  }
 `;

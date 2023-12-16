@@ -29,7 +29,7 @@ const App = () => {
         {
           path: ROUTES.MAIN,
           element: (
-            <Suspense fallback={<div>loading...</div>}>
+            <Suspense fallback={null}>
               <MainPage />
             </Suspense>
           ),
@@ -37,7 +37,7 @@ const App = () => {
         {
           path: ROUTES.CHAT,
           element: (
-            <Suspense fallback={<div>loading...</div>}>
+            <Suspense fallback={null}>
               <ChatPage />
             </Suspense>
           ),
@@ -45,7 +45,7 @@ const App = () => {
         {
           path: ROUTES.ROLLING_PAPER,
           element: (
-            <Suspense fallback={<div>loading...</div>}>
+            <Suspense fallback={null}>
               <RollingPaper />
             </Suspense>
           ),
@@ -53,7 +53,7 @@ const App = () => {
         {
           path: ROUTES.CALLBACK_KAKAO,
           element: (
-            <Suspense fallback={<div>loading...</div>}>
+            <Suspense fallback={null}>
               <CallbackKakao />
             </Suspense>
           ),

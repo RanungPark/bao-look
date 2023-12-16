@@ -1,20 +1,24 @@
+import USER_PROFILE from 'src/assets/img/user-profile.jpg';
 import { COLORS } from 'src/constants';
 import styled from 'styled-components';
 
-import { IRMessage } from './types';
-import { formatTime } from '../chat/utils';
+import { IListValues } from './types';
 
-const ROtherMassage = ({ message: { message, nickName, date } }: { message: IRMessage }) => {
+const ROtherMassage = ({ message: { content, randomName }, sameUser }: { message: IListValues; sameUser: boolean }) => {
   return (
     <Layout>
-      <Profile>
-        <Image src="" alt="프로필 이미지" />
-      </Profile>
+      {sameUser ? (
+        <Profile></Profile>
+      ) : (
+        <Profile>
+          <Image src={USER_PROFILE} alt="프로필 이미지" />
+        </Profile>
+      )}
+
       <MessageLayout>
-        <NicKNmae>{nickName}</NicKNmae>
-        <Message>{message}</Message>
+        {!sameUser && <NicKNmae>{randomName}</NicKNmae>}
+        <Message>{content}</Message>
       </MessageLayout>
-      <Time>{formatTime(date)}</Time>
     </Layout>
   );
 };
@@ -30,7 +34,6 @@ const Layout = styled.div`
 const Profile = styled.div`
   width: 34px;
   height: 34px;
-  background-color: ${COLORS.GRAY_500};
   border-radius: 50%;
 `;
 
@@ -61,11 +64,4 @@ const Message = styled.div`
   border-radius: 0px 18px 18px;
   word-wrap: break-all;
   font-size: 15px;
-`;
-
-const Time = styled.div`
-  align-self: flex-end;
-  color: ${COLORS.DARK};
-  opacity: 0.4;
-  font-size: 11px;
 `;

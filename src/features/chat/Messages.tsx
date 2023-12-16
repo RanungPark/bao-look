@@ -1,41 +1,76 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Spinner } from 'src/common/ui';
 import { COLORS } from 'src/constants';
 import { styled } from 'styled-components';
 
 import BaoMessage from './BaoMessage';
-import { chatStore } from './store';
+import { getMessageList } from './service';
+import { chatStore, firstChatId } from './store';
 import UserMessage from './UserMessage';
 import useObserver from '../../common/useObserver';
+import { authStore } from '../auth/store';
 
 const Messages = () => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [scrollHeight, setScrollHeight] = useState(0);
   const infiniteContainerRef = useObserver(() => moreDataHandler());
-  const chatState = useRecoilValue(chatStore);
+  const [chatState, setChatState] = useRecoilState(chatStore);
+  const { memberId } = useRecoilValue(authStore);
+  const firstChatIdState = useRecoilValue(firstChatId);
 
   const moreDataHandler = () => {
-    console.log('moreDataHandler');
-    // if (hasNextPage) {
-    //   return fetchNextPage();
-    // }
+    if (!messagesContainerRef.current) {
+      return;
+    }
+    if (chatState.hasNext) {
+      setScrollHeight(messagesContainerRef.current.scrollHeight);
+      setChatState(prev => ({ ...prev, loading: true }));
+      getMessageList(memberId, firstChatIdState)
+        .then(res => {
+          if (!res) {
+            return;
+          }
+          setChatState(prev => ({
+            ...prev,
+            messages: [...res.values.slice().reverse(), ...prev.messages],
+            hasNext: res.hasNext,
+          }));
+        })
+        .finally(() => {
+          setChatState(prev => ({ ...prev, loading: false }));
+        });
+    }
   };
 
   useEffect(() => {
     if (!messagesContainerRef.current) {
       return;
     }
-
     if (scrollHeight) {
       const scrollTop = messagesContainerRef.current.scrollHeight - scrollHeight;
       messagesContainerRef.current.scrollTop = scrollTop;
-      setScrollHeight(messagesContainerRef.current.scrollHeight);
-    } else {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      setScrollHeight(0);
     }
-  }, [chatState.messages, scrollHeight]);
+    messagesContainerRef.current.scrollHeight - messagesContainerRef.current.clientHeight;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatState.messages.length]);
+
+  useEffect(() => {
+    setChatState(prev => ({ ...prev, loading: true }));
+    getMessageList(memberId).then(res => {
+      if (!res) {
+        return;
+      }
+      setChatState(prev => ({
+        ...prev,
+        messages: res.values.slice().reverse(),
+        hasNext: res.hasNext,
+      }));
+    });
+    setChatState(prev => ({ ...prev, loading: false }));
+  }, [memberId, setChatState]);
 
   return (
     <Layout>
@@ -43,7 +78,7 @@ const Messages = () => {
       <MassagesLayout ref={messagesContainerRef}>
         {!chatState.loading && <InfinityContainer ref={infiniteContainerRef} />}
         {chatState.messages.map((message, index: number) => {
-          if (message.sender === '푸바오') {
+          if (message.role === 'assistant') {
             return <BaoMessage message={message} key={index} />;
           }
           return <UserMessage message={message} key={index} />;

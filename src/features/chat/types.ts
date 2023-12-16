@@ -1,5 +1,6 @@
 export interface IMessage {
-  sender: string;
+  role: string;
   message: string;
-  date: string;
+  chatTime: string;
+  chatId: number;
 }

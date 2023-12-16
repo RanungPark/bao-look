@@ -25,6 +25,5 @@ export default Calendar;
 
 const Layout = styled.div`
   width: 100%;
-  background-color: white;
   cursor: pointer;
 `;
