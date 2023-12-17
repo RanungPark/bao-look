@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import axios, { AxiosResponse } from 'axios';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Spinner } from 'src/common/ui';
 import { COLORS, URLS } from 'src/constants';
 import styled from 'styled-components';
@@ -12,6 +12,7 @@ import { IGetRollingPaperList } from './service';
 // import { getRollingPaperLast, getRollingPaperList } from './service';
 import { rollingPaperStore } from './store';
 import useObserver from '../../common/useObserver';
+import { authStore } from '../auth/store';
 
 const RMessages = () => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -19,6 +20,7 @@ const RMessages = () => {
   const infiniteContainerRef = useObserver(() => moreDataHandler());
   const [rollingPaperState, setRollingPaperState] = useRecoilState(rollingPaperStore);
   // const [lastId, setLastId] = useState(0);
+  const { memberId } = useRecoilValue(authStore);
 
   const moreDataHandler = () => {
     console.log('moreDataHandler');
@@ -28,65 +30,24 @@ const RMessages = () => {
     if (!messagesContainerRef.current) {
       return;
     }
-
     if (scrollHeight) {
       const scrollTop = messagesContainerRef.current.scrollHeight - scrollHeight;
       messagesContainerRef.current.scrollTop = scrollTop;
-      setScrollHeight(messagesContainerRef.current.scrollHeight);
-    } else {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      setScrollHeight(0);
     }
-  }, [rollingPaperState.messages, scrollHeight]);
-
-  // useEffect(() => {
-  //   getRollingPaperLast().then(res => {
-  //     if (!res) {
-  //       return;
-  //     }
-  //     setLastId(res.data.lastId);
-  //   });
-
-  //   getRollingPaperList().then(res => {
-  //     if (!res) {
-  //       return;
-  //     }
-  //     console.log(res);
-  //     res.data.values.map(value => {
-  //       setRollingPaperState(prev => ({
-  //         ...prev,
-  //         messages: [
-  //           ...prev.messages,
-  //           {
-  //             content: value.content,
-  //             rollingPaperId: value.rollingPaperId,
-  //             memberId: value.memberId,
-  //             randomName: value.randomName,
-  //           },
-  //         ],
-  //       }));
-  //     });
-  //   });
-  // }, [lastId, setRollingPaperState]);
+    messagesContainerRef.current.scrollHeight - messagesContainerRef.current.clientHeight;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rollingPaperState.messages.length]);
 
   useEffect(() => {
     axios
       .get(URLS.ROLLING_PAPER_LIST)
       .then(function (response: AxiosResponse<IGetRollingPaperList>) {
         console.log(response.data);
-        response.data.data.values.map(value => {
-          setRollingPaperState(prev => ({
-            ...prev,
-            messages: [
-              ...prev.messages,
-              {
-                content: value.content,
-                rollingPaperId: value.rollingPaperId,
-                memberId: value.memberId,
-                randomName: value.randomName,
-              },
-            ],
-          }));
-        });
+        setRollingPaperState(prev => ({
+          ...prev,
+          messages: [...response.data.data.values.slice().reverse()],
+        }));
       })
       .catch(function (error) {
         console.log(error.response);
@@ -99,7 +60,7 @@ const RMessages = () => {
       <MassagesLayout ref={messagesContainerRef}>
         {!rollingPaperState.loading && <InfinityContainer ref={infiniteContainerRef} />}
         {rollingPaperState.messages.map((message, index: number) => {
-          if (message.memberId === 1) {
+          if (message.memberId === memberId) {
             return <RUserMassage message={message} key={index} />;
           }
           if (index !== 0 && rollingPaperState.messages[index - 1].memberId === message.memberId) {

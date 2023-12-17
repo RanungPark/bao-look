@@ -1,15 +1,14 @@
 import { useState } from 'react';
 
 import axios, { AxiosResponse } from 'axios';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import SEND_ICON from 'src/assets/icon/send.svg';
 import { COLORS, URLS } from 'src/constants';
 import styled from 'styled-components';
 
 import { IPostRollingPaper } from './service';
-// import { postRollingPaper } from './service';
 import { rollingPaperStore } from './store';
-// import { authStore } from '../auth/store';
+import { authStore } from '../auth/store';
 
 interface IProps {
   setInputState: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +16,7 @@ interface IProps {
 
 const RMessageInput = ({ setInputState }: IProps) => {
   const [content, setContent] = useState('');
-  // const { memberId } = useRecoilValue(authStore);
+  const { memberId } = useRecoilValue(authStore);
   const setRollingPaperState = useSetRecoilState(rollingPaperStore);
   const maxMessageLength = 100;
 
@@ -31,49 +30,16 @@ const RMessageInput = ({ setInputState }: IProps) => {
     }
   };
 
-  // const sendMessage = () => {
-  //   if (content === '') {
-  //     return;
-  //   }
-
-  //   setRollingPaperState(prev => ({ ...prev, loading: true }));
-  //   //1 => memberId
-  //   postRollingPaper(1, content).then(res => {
-  //     if (!res) {
-  //       return;
-  //     }
-  //     setRollingPaperState(prev => ({
-  //       ...prev,
-  //       messages: [
-  //         ...prev.messages,
-  //         {
-  //           content,
-  //           rollingPaperId: res.data.rollingPaperId,
-  //           memberId: 1, // 1 => memberId
-  //           randomName: res.data.randomName,
-  //         },
-  //       ],
-  //     }));
-  //   });
-
-  //   setRollingPaperState(prev => ({ ...prev, loading: false }));
-  //   setContent('');
-  // };
-
   const sendMessage = () => {
     if (content === '') {
       return;
     }
-
+    setRollingPaperState(prev => ({ ...prev, loading: true }));
     axios
-      // .post(`${URLS.ROLLING_PAPER}/${memberId}`, {
-      //   message,
-      // })
-      .post(`${URLS.ROLLING_PAPER}/1`, {
-        content,
+      .post(`${URLS.ROLLING_PAPER}/${memberId}`, {
+        message: content,
       })
       .then(function (response: AxiosResponse<IPostRollingPaper>) {
-        console.log(response.data);
         setRollingPaperState(prev => ({
           ...prev,
           messages: [
@@ -81,17 +47,15 @@ const RMessageInput = ({ setInputState }: IProps) => {
             {
               content,
               rollingPaperId: response.data.data.rollingPaperId,
-              memberId: 1, // 1 => memberId
+              memberId,
               randomName: response.data.data.randomName,
             },
           ],
         }));
       })
       .catch(function (error) {
-        console.log(error.response);
+        console.error(error.response);
       });
-
-    setRollingPaperState(prev => ({ ...prev, loading: true }));
     setContent('');
     setRollingPaperState(prev => ({ ...prev, loading: false }));
   };

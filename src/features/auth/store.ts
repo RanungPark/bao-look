@@ -1,8 +1,5 @@
 import { atom } from 'recoil';
 import type { AtomEffect } from 'recoil';
-// import { recoilPersist } from 'recoil-persist';
-
-// const { persistAtom } = recoilPersist();
 
 export interface IAuthStore {
   accessToken: string;
@@ -35,8 +32,7 @@ export const authStore = atom<IAuthStore>({
     refreshToken: '',
     grantType: '',
     memberId: 1,
-    randomName: '',
+    randomName: '푸덕이 짱짱',
   },
-  // effects_UNSTABLE: [persistAtom],
   effects: [localStorageEffect<IAuthStore>('authStore')],
 });
