@@ -1,14 +1,28 @@
+import { useEffect, useState } from 'react';
+
 import { useNavigate } from 'react-router';
+import { useRecoilValue } from 'recoil';
 import FUBAO_PROFILE from 'src/assets/img/bao-profile.jpg';
 import { COLORS, ROUTES } from 'src/constants';
 import styled from 'styled-components';
 
+import { authStore } from '../auth/store';
+import { getRecentMessage } from '../chat/service';
+
 const ChatBox = () => {
   const navigate = useNavigate();
-
+  const { memberId } = useRecoilValue(authStore);
+  const [recentMessage, setRecentMessage] = useState<string>('');
   const moveChat = () => {
     navigate(ROUTES.CHAT);
   };
+
+  useEffect(() => {
+    getRecentMessage(memberId).then(res => {
+      setRecentMessage(res.lastMessage);
+    });
+  }, [memberId]);
+
   return (
     <ChatBoxLayout>
       <Profile>
@@ -22,14 +36,18 @@ const ChatBox = () => {
       </StateMessage>
 
       <MessageBox onClick={moveChat}>
-        <EarlyMessage>푸바오와 채팅을 시작해 보세요!</EarlyMessage>
-        <EarlyButton>시작하기</EarlyButton>
+        {recentMessage ? (
+          <>
+            <Newly>최근 메시지</Newly>
+            <MessagePhrases>{recentMessage}</MessagePhrases>
+          </>
+        ) : (
+          <>
+            <EarlyMessage>푸바오와 채팅을 시작해 보세요!</EarlyMessage>
+            <EarlyButton>시작하기</EarlyButton>
+          </>
+        )}
       </MessageBox>
-      {/* 
-      <MessageBox onClick={moveChat}>
-        <Newly>최근 메시지</Newly>
-        <MessagePhrases>이건 푸바오 말도 들어봐야한다</MessagePhrases>
-      </MessageBox> */}
     </ChatBoxLayout>
   );
 };
@@ -105,10 +123,10 @@ const MessageBox = styled.div`
   }
 `;
 
-// const Newly = styled.span`
-//   font-size: 15px;
-//   color: ${COLORS.PRIMARY_600};
-// `;
+const Newly = styled.span`
+  font-size: 15px;
+  color: ${COLORS.PRIMARY_600};
+`;
 
 const EarlyMessage = styled.span`
   font-size: 15px;
@@ -116,19 +134,19 @@ const EarlyMessage = styled.span`
   color: ${COLORS.PRIMARY_800};
 `;
 
-// const MessagePhrases = styled.div`
-//   padding: 8px 15px;
-//   background-color: ${COLORS.PRIMARY_500};
-//   color: ${COLORS.PRIMARY_800};
-//   border-radius: 0px 18px 18px 18px;
-//   word-wrap: break-word;
-//   border: 1px solid ${COLORS.PRIMARY_700};
-//   max-width: 210px;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-//   white-space: pre;
-//   cursor: pointer;
-// `;
+const MessagePhrases = styled.div`
+  padding: 8px 15px;
+  background-color: ${COLORS.PRIMARY_500};
+  color: ${COLORS.PRIMARY_800};
+  border-radius: 0px 18px 18px 18px;
+  word-wrap: break-word;
+  border: 1px solid ${COLORS.PRIMARY_700};
+  max-width: 210px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+  cursor: pointer;
+`;
 
 const EarlyButton = styled.div`
   background-color: ${COLORS.PRIMARY_500};

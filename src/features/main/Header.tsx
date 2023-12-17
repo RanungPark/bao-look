@@ -1,29 +1,28 @@
 import { useEffect, useState } from 'react';
 
 import axios, { AxiosResponse } from 'axios';
-// import { useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import HEAR_ICON from 'src/assets/icon/heart.svg';
 import { URLS } from 'src/constants';
 import styled from 'styled-components';
 
 import { IMember } from './store';
-// import { IAuthStore, authStore } from '../auth/store';
+import { IAuthStore, authStore } from '../auth/store';
 
 const Header = () => {
-  // const { memberId } = useRecoilValue<IAuthStore>(authStore);
+  const { memberId } = useRecoilValue<IAuthStore>(authStore);
   const [member, setMember] = useState<number | null>(null);
+
   useEffect(() => {
     axios
-      // .get(`${URLS.MEMBER}/${memberId}}`)
-      .get(`${URLS.MEMBER}/1`)
+      .get(`${URLS.MEMBER}/${memberId}`)
       .then(function (response: AxiosResponse<IMember>) {
-        console.log(response.data);
         setMember(response.data.data.dday);
       })
       .catch(function (error) {
-        console.log(error.response);
+        console.error(error.response);
       });
-  }, []);
+  }, [memberId]);
 
   return (
     <Layout>

@@ -20,11 +20,10 @@ const Sub = ({ title, note, calendar }: { title: string; note: string; calendar:
     axios
       .get(URLS.CALENDAR)
       .then(function (response: AxiosResponse<ICalendar>) {
-        console.log(response.data);
         setCalendarDDay(response.data.data.countDDay);
       })
       .catch(function (error) {
-        console.log(error.response);
+        console.error(error.response);
       });
   }, []);
 
