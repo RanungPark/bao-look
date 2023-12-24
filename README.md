@@ -1,14 +1,15 @@
 ![%EB%B0%B0%EB%84%88](https://github.com/RanungPark/bao-look/assets/104816866/fdd7f8fd-eedb-49b6-844e-79e3466a9c88)
 ![KakaoTalk_20231216_215711736](https://github.com/RanungPark/bao-look/assets/104816866/606a40f7-606f-4abf-afc3-dfa3cc37c90a)
 
-<aside>
+
 👉🏻 귀여운 자이언트 판다, 푸바오를 아시나요?
 **바오, 봐요에서 푸바오와 대화해보세요!**
-</aside>
 
 ## 🐼 바오, 봐요 서비스 소개서
 
 [바오 봐요 서비스소개서.pdf](https://prod-files-secure.s3.us-west-2.amazonaws.com/6db25994-ae4e-41f7-af17-f658d20445d9/4bbb8ad5-f6d6-4875-8d71-12b7a1460f61/%EB%B0%94%EC%98%A4_%EB%B4%90%EC%9A%94_%EC%84%9C%EB%B9%84%EC%8A%A4%EC%86%8C%EA%B0%9C%EC%84%9C.pdf)
+
+[바오 봐요 서비스 페이지](https://bao-look.vercel.app/)
 
 ![Untitled](https://github.com/RanungPark/bao-look/assets/104816866/817e9118-69a4-4db6-9460-60e780372d44)
 
